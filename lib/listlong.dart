@@ -1,3 +1,4 @@
+import 'package:ecommerce_shoes/detailpage.dart';
 import 'package:flutter/material.dart';
 
 class ListLong extends StatelessWidget {
@@ -44,59 +45,75 @@ class ListLong extends StatelessWidget {
       itemCount: items.length,
       scrollDirection: Axis.vertical,
       itemBuilder: (BuildContext context, index) {
-        return Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(
-                Radius.circular(10),
-              ),
-              color: color[index],
-              boxShadow: [
-                BoxShadow(
-                    blurRadius: 5, offset: Offset(5, 5), color: Colors.grey)
-              ]),
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-          margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-          width: double.infinity,
-          height: 100,
-          child: Row(
-            children: [
-              Container(
-                child: Image.asset(
-                  items[index]["image"],
+        return GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) => DetailPage(
+                  name: items[index]["name"],
+                  image: items[index]["image"],
+                  brandimage: items[index]["brandimage"],
+                  brandlogo: items[index]["brandlogo"],
+                  color: color[index],
+                  price: items[index]["price"],
                 ),
-                height: 100,
-                width: 140,
               ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Wrap(
-                    children: [
-                      Container(
-                        width: 130,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                        child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(items[index]["name"],
-                                style: TextStyle(
-                                    fontSize: 20, color: Colors.white))),
-                      ),
-                    ],
+            );
+          },
+          child: Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10),
+                ),
+                color: color[index],
+                boxShadow: [
+                  BoxShadow(
+                      blurRadius: 5, offset: Offset(5, 5), color: Colors.grey)
+                ]),
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+            width: double.infinity,
+            height: 100,
+            child: Row(
+              children: [
+                Container(
+                  child: Image.asset(
+                    items[index]["image"],
                   ),
-                  Container(
-                    padding: EdgeInsets.only(left:10),
-                      child: Text(
-                    items[index]["brandname"],
-                    style: TextStyle(color: Colors.white70),
-                  ))
-                ],
-              ),
-              Container(
-                  child: Text("\$${items[index]["price"]}",
-                      style: TextStyle(fontSize: 19, color: Colors.white)))
-            ],
+                  height: 100,
+                  width: 140,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Wrap(
+                      children: [
+                        Container(
+                          width: 130,
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                          child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(items[index]["name"],
+                                  style: TextStyle(
+                                      fontSize: 20, color: Colors.white))),
+                        ),
+                      ],
+                    ),
+                    Container(
+                        padding: EdgeInsets.only(left: 10),
+                        child: Text(
+                          items[index]["brandname"],
+                          style: TextStyle(color: Colors.white70),
+                        ))
+                  ],
+                ),
+                Container(
+                    child: Text("\$${items[index]["price"]}",
+                        style: TextStyle(fontSize: 19, color: Colors.white)))
+              ],
+            ),
           ),
         );
       },

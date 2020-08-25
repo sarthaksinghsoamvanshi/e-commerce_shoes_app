@@ -1,3 +1,5 @@
+import 'package:ecommerce_shoes/clipper.dart';
+import 'package:ecommerce_shoes/detailpage.dart';
 import 'package:flutter/material.dart';
 
 class ListItems extends StatelessWidget {
@@ -40,18 +42,32 @@ class ListItems extends StatelessWidget {
         "brandname": "nike"
       },
     ];
-    return GestureDetector(
-          child: ListView.builder(
-        itemCount: items.length,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (BuildContext context, index) {
-          return Container(
+    return ListView.builder(
+      itemCount: items.length,
+      scrollDirection: Axis.horizontal,
+      itemBuilder: (BuildContext context, index) {
+        return GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) => DetailPage(
+                  name: items[index]["name"],
+                  image: items[index]["image"],
+                  brandimage: items[index]["brandimage"],
+                  brandlogo: items[index]["brandlogo"],
+                  color: color[index],
+                  price: items[index]["price"],
+                ),
+              ),
+            );
+          },
+          child: Container(
             margin: EdgeInsets.all(10),
             width: 215,
             child: Stack(
               children: [
                 ClipPath(
-                  clipper: FirstClipper(),
+                  clipper: FirstClipper(factor: 25.00,dhfactor: 120.00),
                   child: Container(
                     color: color[index % 4],
                     child: Stack(
@@ -118,33 +134,9 @@ class ListItems extends StatelessWidget {
                 ),
               ],
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
-  }
-}
-
-class FirstClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    var path = new Path();
-    path.moveTo(0, 25 * 1.5);
-    path.lineTo(0, size.height - 25);
-    path.quadraticBezierTo(0, size.height, 25, size.height);
-    path.lineTo(size.width - 25, size.height);
-    path.quadraticBezierTo(
-        size.width, size.height, size.width, size.height - 25);
-    path.lineTo(size.width, size.height * 0.4 + 25);
-    path.quadraticBezierTo(size.width, size.height * 0.4,
-        size.width - (25 * 1.5), (size.height * 0.43) - (25));
-    path.lineTo(50, 25);
-    path.quadraticBezierTo(0, 0, 0, 25 * 1.5);
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) {
-    return true;
   }
 }
